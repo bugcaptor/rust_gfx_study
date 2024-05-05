@@ -168,7 +168,6 @@ impl Framework<'_> {
                             event_loop_wrapper.window.request_redraw();
                         }
                         WindowEvent::RedrawRequested => {
-                            self.render_frame();
 
                             // set to window title.
                             let title = format!("FPS: {:.1}", self.frame_counter.get_last_fps());
@@ -177,10 +176,12 @@ impl Framework<'_> {
                             // Calculate when the next frame should be
                             let now = Instant::now();
                             let duration = now.duration_since(last_frame_time);
-                            if duration > FRAME_DURATION {
+                            if duration >= FRAME_DURATION {
                                 last_frame_time = now;
-                                event_loop_wrapper.window.request_redraw();
+                                self.render_frame();
                             }
+
+                            event_loop_wrapper.window.request_redraw();
                         }
                         WindowEvent::CloseRequested => target.exit(),
                         _ => {}
