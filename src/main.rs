@@ -1,6 +1,7 @@
 mod hello_triangle;
 
-fn main() {
+#[tokio::main]
+async fn main() {
     use hello_triangle::main as run;
-    run();
+    run().await;
 }
